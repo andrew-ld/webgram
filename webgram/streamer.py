@@ -57,8 +57,8 @@ class Streamer:
             await resp.write((await cls.__anext__())[read_skip:])
 
         async for part in cls:
-            await resp.write(part)
             await resp.drain()
+            await resp.write(part)
 
         return resp
 
