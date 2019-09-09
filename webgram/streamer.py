@@ -33,6 +33,12 @@ class Streamer:
         download_skip = (offset // BLOCK_SIZE) * BLOCK_SIZE
         read_skip = offset - download_skip
 
+        if download_skip >= file_size:
+            return web.Response(status=416)
+
+        if read_skip > BLOCK_SIZE:
+            return web.Response(status=500)
+
         resp = web.StreamResponse(
             headers={
                 'Content-Type': 'application/octet-stream',
