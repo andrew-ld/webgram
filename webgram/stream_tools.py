@@ -3,9 +3,9 @@ from telethon.tl.types import MessageMediaDocument, InputMessagesFilterDocument
 from telethon.tl.types import DocumentAttributeFilename
 from telethon.tl.types import Document
 from telethon.tl.types import Message
+from telethon.tl.types.messages import MessagesNotModified
 import typing
 import werkzeug.utils
-from telethon.tl.types.messages import MessagesNotModified
 
 if typing.TYPE_CHECKING:
     import webgram

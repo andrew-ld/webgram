@@ -3,13 +3,14 @@ from telethon.tl.types import Message
 from aiohttp import web
 import typing
 import re
+import telethon
 
 if typing.TYPE_CHECKING:
     import webgram
 
 
 RANGE_REGEX = re.compile(r"bytes=([0-9]+)-")
-BLOCK_SIZE = 524288
+BLOCK_SIZE = telethon.client.downloads.MAX_CHUNK_SIZE
 
 
 class Streamer:
