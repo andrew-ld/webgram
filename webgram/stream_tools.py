@@ -3,6 +3,7 @@ from telethon.tl.types import DocumentAttributeFilename
 from telethon.tl.types import Document
 from telethon.tl.types import Message
 import typing
+import werkzeug.utils
 
 if typing.TYPE_CHECKING:
     import webgram
@@ -19,11 +20,11 @@ class StreamTools:
 
             if filename.split(".")[-1] in self.config.ALLOWED_EXT:
                 if message.message:
-                    yield f"#EXTINF:-1,{message.message} {filename}"
-
+                    name = f"{message.message} {filename}"
                 else:
-                    yield f"#EXTINF:-1,{filename}"
+                    name = filename
 
+                yield f"#EXTINF:-1, {werkzeug.utils.secure_filename(name)}"
                 yield f"{self.config.ROOT_URI}/watch/{peer}/{message.id}"
 
     @staticmethod
