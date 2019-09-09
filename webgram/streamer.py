@@ -53,12 +53,11 @@ class Streamer:
 
         cls = self.client.iter_download(message.media, offset=download_skip)
 
-        if read_skip:
-            await resp.write((await cls.__anext__())[read_skip:])
-
         async for part in cls:
+            await resp.write(part[read_skip:])
             await resp.drain()
-            await resp.write(part)
+
+            read_skip = 0
 
         return resp
 
