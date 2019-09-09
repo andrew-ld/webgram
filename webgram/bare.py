@@ -2,11 +2,11 @@ import telethon
 import asyncio
 
 from . import (
-    Fetcher, Config, StreamTools, Streamer, Checkers
+    Config, StreamTools, Streamer, Checkers
 )
 
 
-class BareServer(Config, Fetcher, StreamTools, Streamer, Checkers):
+class BareServer(Config, StreamTools, Streamer, Checkers):
     client: telethon.TelegramClient
 
     def __init__(self, loop: asyncio.AbstractEventLoop):
