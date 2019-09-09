@@ -26,9 +26,21 @@ class Streamer:
         if message is None or not isinstance(message.media, MessageMediaDocument):
             return web.Response(status=404)
 
-        offset = request.headers.get("Range", False)
-        offset = RANGE_REGEX.search(offset).group(1) if offset else ""
-        offset = int(offset) if offset.isdigit() else 0
+        offset = request.headers.get("Range", 0)
+
+        if not isinstance(offset, int):
+            matches = RANGE_REGEX.search(offset)
+
+            # noinspection PyUnresolvedReferences
+            if not isinstance(matches, re.Match):
+                return web.Response(status=400)
+
+            offset = matches.group(1)
+
+            if not offset.isdigit():
+                return web.Response(status=400)
+
+            offset = int(offset)
 
         file_size = message.media.document.size
         download_skip = (offset // BLOCK_SIZE) * BLOCK_SIZE
