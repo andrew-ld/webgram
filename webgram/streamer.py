@@ -31,8 +31,7 @@ class Streamer:
         if not isinstance(offset, int):
             matches = RANGE_REGEX.search(offset)
 
-            # noinspection PyUnresolvedReferences
-            if not isinstance(matches, re.Match):
+            if matches is None:
                 return web.Response(status=400)
 
             offset = matches.group(1)
