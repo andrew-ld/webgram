@@ -1,6 +1,7 @@
 import typing
 import werkzeug.utils
 import re
+import html
 
 from pyrogram.api.functions.channels import GetMessages
 from pyrogram.api.functions.upload import GetFile
@@ -77,6 +78,15 @@ class Tools:
             return False
 
         return res.messages[0]
+
+    def get_channels(self: 'BareServer'):
+        return filter(lambda x: x.chat.type == "channel", self.client.get_dialogs())
+
+    def homepage_row(self: 'BareServer', chat) -> str:
+        return self.config.HOMEPAGE_ROW.format(
+            name=html.escape(chat.chat.title),
+            id=chat.chat.id
+        )
 
     def documents_m3u(self: 'BareServer', messages: typing.List[Message], raw_peer: str) -> typing.Generator:
         for message in messages:

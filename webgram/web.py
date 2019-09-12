@@ -11,6 +11,22 @@ from pyrogram.api.types import MessageMediaDocument, Message
 
 
 class Web:
+    def get_homepage(self: 'BareServer'):
+        # noinspection PyAbstractClass
+        class HomePage(tornado.web.RequestHandler):
+            __slots__ = ['bare']
+            bare: 'BareServer'
+
+            async def get(self):
+                for chat in self.bare.get_channels():
+                    self.write(self.bare.homepage_row(chat))
+                    await self.flush()
+
+                return await self.finish()
+
+        HomePage.bare = self
+        return HomePage
+
     def get_stream_watch(self: 'BareServer'):
         # noinspection PyAbstractClass
         class MtProtoFileStreamer(tornado.web.RequestHandler):

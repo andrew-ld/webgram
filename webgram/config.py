@@ -14,3 +14,5 @@ class Config:
         ROOT_URI = f"http://{HOST}:{PORT}"
 
         ALLOWED_EXT = ["mkv", "mp4", "flv"]
+
+        HOMEPAGE_ROW = "<a href='/m3u/?peer={id}'>{name}</a> ({id})<br><br>\n"
